@@ -11,6 +11,65 @@
             this.type = t;
             this.number = n;
             this.color = c;
+            this.opened = false; // is de kaart zichtbaar, standaard niet?
+
+            // een method toevoegen voor turn (draaien van de kaart)
+            // als input is het HTML element nodig welke de animatie moet bevatten (= e)
+            this.turn = async function(e) {
+                await this.random(e); // pick een random kaart (en wacht tot functie klaar is)
+
+                // indien het element nog niet is gekoppeld aan de class: flip, voeg hem dan toe
+                // dit heeft starten van de animatie als gevolg
+                if(!e.classList.contains('flip')) {
+                    e.classList.add('flip')
+                    this.opened=true;
+                    return true;
+                } else {
+                    // indien dit niet het geval is, verwijder de class: flip
+                    // ook nu wordt de animatie afgespeeld, maar weer terug naar de initiele staat
+                    e.classList.remove('flip')
+                    this.opened=false;
+                    return false;
+                }
+            }
+
+            // een methode om een random kaart te kiezen
+            this.random = async function(e) {
+
+                if(!this.opened) {
+                    let decks = [
+                        ["#000000",["♠"],[2,3,4,5,6,7,8,9,10,"B","V","H","A"]],
+                        ["#000000",["♣"],[2,3,4,5,6,7,8,9,10,"B","V","H","A"]],
+                        ["#FF0000",["♦"],[2,3,4,5,6,7,8,9,10,"B","V","H","A"]],
+                        ["#FF0000",["♥"],[2,3,4,5,6,7,8,9,10,"B","V","H","A"]],
+                    ];
+
+                    // kies random item uit een array -> deck ♠, ♣, ♦ of ♥
+                    let randomDeck = decks[Math.floor(Math.random()*decks.length)];
+                    // uit gekozen random deck, kies een random kaart....
+                    let randomNr = randomDeck[2][Math.floor(Math.random()*randomDeck[2].length)];
+
+                    this.number = randomNr;
+                    this.type=randomDeck[1];
+                    this.color = randomDeck[0];
+
+                    // koppel nummer en type aan de HTML elementen
+                    numbers = document.querySelectorAll(".number > div:nth-child(1)");
+                    types = document.querySelectorAll(".number > div:nth-child(2)");
+
+                    numbers.forEach(function(e) {
+                        e.innerText = randomNr;
+                        e.style.color = randomDeck[0];
+                    });
+
+                    types.forEach(function (e) {
+                        e.innerText = randomDeck[1];
+                        e.style.color = randomDeck[0];
+                    });
+               }
+                return; // finished
+            }
+
         }
 
         let mycard = null;
@@ -19,22 +78,25 @@
 
         document.addEventListener("DOMContentLoaded",function() {
 
-            mycard = new card("♠",9,"#FF0000");
-            //document.getElementById("nlb").innerText = mycard.number;
-            //document.getElementById("tlb").innerText = mycard.type
+            // eerst de kaart uit het HTML DOM ophalen
+            let ele_playcard = document.getElementById("playcard")
 
-            numbers = document.querySelectorAll(".number > div:nth-child(1)");
-            types = document.querySelectorAll(".number > div:nth-child(2)");
+            // een nieuw kaart object maken
+            mycard = new card("♠",9,"#FF0000"); // met de input doen we even niets, random items worden gekozen
 
-            numbers.forEach(function(ele) {
-               ele.innerText = mycard.number;
-               ele.style.color = mycard.color;
+            // zodra geklikt wordt op het kaart element worden de nummers gezet
+            // en zal deze worden omgedraaid
+            ele_playcard.addEventListener("click",function() {
+                // kaart omdraaien, promise object komt terug (omdat er met een async functie wordt gewerkt)
+                mycard.turn(ele_playcard).then(function (result) {
+                    if(result) {
+                        console.log(`${mycard.type} - ${mycard.number}`);
+                    }
+                });
             });
 
-            types.forEach(function (ele) {
-               ele.innerText = mycard.type;
-                ele.style.color = mycard.color;
-            });
+
+
 
         });
 
@@ -61,13 +123,23 @@
             align-items: center;
         }
 
+        /*
+        We werken niet meer met de hover pseudoclass maar gaan voor het klikken op de kaart
+        */
+
+        /*
         #playcard:hover {
+           transform: rotateY(180deg);
+        }
+        */
+
+        /*
+        Wanneer deze class wordt gekoppeld aan de kaart zal animatie plaats vinden.
+        bij verwijderen speelt animatie weer terug
+         */
+        .flip {
             transform: rotateY(180deg);
         }
-
-       /* .flip {
-            transform: rotateY(180deg);
-        }*/
 
         .front, .back {
             position: absolute;
