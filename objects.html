@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Objects</title>
+
+    <script>
+
+        // dit is het kaartobject
+        function card(t,n,c) {
+            this.type = t;
+            this.number = n;
+            this.color = c;
+        }
+
+        let mycard = null;
+        let numbers = null;
+        let types = null;
+
+        document.addEventListener("DOMContentLoaded",function() {
+
+            mycard = new card("♠",9,"#FF0000");
+            //document.getElementById("nlb").innerText = mycard.number;
+            //document.getElementById("tlb").innerText = mycard.type
+
+            numbers = document.querySelectorAll(".number > div:nth-child(1)");
+            types = document.querySelectorAll(".number > div:nth-child(2)");
+
+            numbers.forEach(function(ele) {
+               ele.innerText = mycard.number;
+               ele.style.color = mycard.color;
+            });
+
+            types.forEach(function (ele) {
+               ele.innerText = mycard.type;
+                ele.style.color = mycard.color;
+            });
+
+        });
+
+    </script>
+
+    <style>
+        html {
+            font-family: Arial;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #playcard {
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #playcard:hover {
+            transform: rotateY(180deg);
+        }
+
+       /* .flip {
+            transform: rotateY(180deg);
+        }*/
+
+        .front, .back {
+            position: absolute;
+            display: flex;
+            padding: 5px;
+            border-radius: 15px;
+            width: 178px;
+            height: 250px;
+            backface-visibility: hidden;
+        }
+
+        .front {
+            border: 1px solid black;
+            transform: rotateY(180deg);
+        }
+
+        .back {
+            background-image: url("images/cardback.png");
+            background-size: cover;
+        }
+
+        .col {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content:space-between;
+        }
+
+        .col:nth-child(1), .col:nth-child(3) {
+            width: 20%;
+        }
+
+        .col:nth-child(2) {
+            width:60%;
+        }
+
+        .number {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .number > div:nth-child(1) {
+            font-weight: bold;
+        }
+
+        .number > div:nth-child(2) {
+            font-weight: bold;
+            font-size: 2em;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<main>
+
+<div id="playcard">
+    <div class="front">
+        <div class="col">
+            <div class="number">
+                <div>x</div>
+                <div>x</div>
+            </div>
+            <div class="number">
+                <div>x</div>
+                <div>x</div>
+            </div>
+        </div>
+        <div class="col">
+
+        </div>
+        <div class="col">
+            <div class="number">
+                <div>x</div>
+                <div>x</div>
+            </div>
+            <div class="number">
+                <div>x</div>
+                <div>x</div>
+            </div>
+        </div>
+    </div>
+    <div class="back">
+
+    </div>
+</div>
+
+</main>
+
+</body>
+</html>

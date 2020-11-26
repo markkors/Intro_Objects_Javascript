@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Objecten</title>
+
+    <style>
+        .board {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .row {
+            display: flex;
+            flex-direction: row;
+
+        }
+
+        .item {
+            display: flex;
+            border: 1px solid;
+            width: 100px;
+            height: 100px;
+            justify-content: center;
+            align-items: center;
+        }
+
+    </style>
+
+    <script>
+
+
+
+
+        let MijnObject = null;
+
+        document.addEventListener("DOMContentLoaded",function () {
+                // dit deel wordt gestart na laden van DOM content
+            MijnObject = {
+                eigenschap1: 'waarde',
+                eigenschap2: 'waarde',
+                eigenschap3: 'waarde'
+            }
+
+
+            let MyCar = []; // maak een array aan
+            MyCar['volvo'] = {
+                id: 1,
+                weight: 1600,
+                price: 25000,
+                color: "blue"
+            }
+
+            console.log(MyCar['volvo'].price); // 25000
+            console.log('id' in MyCar['volvo']); // true
+            console.log('brandstof' in MyCar['volvo']); // false
+
+
+        });
+
+
+
+
+
+    </script>
+
+</head>
+<body>
+    <div id="res"></div>
+</body>
+</html>
