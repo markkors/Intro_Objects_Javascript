@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DEMO DOM</title>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded",function (){
+            // dit wordt gestart na laden van alle content
+
+
+            // de standaard methode
+            document.getElementById("result").innerText = "en hier de oplossing....";
+
+            // dit werkt ook
+            document.querySelector("#item").innerText = "Dit is ook wat inhoud";
+
+            // kan ook met items gekoppeld aan een klas:
+            // items is een array van elementen
+            let items = document.querySelectorAll(".container > div");
+
+            // door alle items heen loopen:
+            let i=0;
+            items.forEach(function(ele) {
+                ele.innerText = i+=1;
+            })
+
+
+            // Wil je HTML schrijven dan gebruik je innerHTML ipv innerText
+            document.querySelector("#itemtoo").innerHTML = "<p>Dit is ook wat inhoud maar met HTML</p>";
+
+
+
+        })
+
+
+    </script>
+
+</head>
+<body>
+    <p id="result"></p>
+    <p id="item"></p>
+
+    <div class="container">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <div id="itemtoo"></div>
+
+
+</body>
+</html>
